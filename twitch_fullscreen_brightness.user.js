@@ -1,7 +1,7 @@
 /*
 Copyright 2021, LWChris
 
-This script is distributed under CC BY-ND 4.0.
+This script is distributed under CC BY-SA 4.0.
 
 This script uses the following third-party resources:
   * GM_config (https://github.com/sizzlemctwizzle/GM_config)
@@ -21,14 +21,16 @@ This script uses the following third-party resources:
 // @namespace       LWChris
 // @author          LWChris
 // @match           https://www.twitch.tv/*
-// @version         1.0
+// @version         1.1
 // @require         https://openuserjs.org/src/libs/sizzle/GM_config.min.js
 // @grant           GM.registerMenuCommand
 // ==/UserScript==
 
 (function() {
+  'use strict';
+  
   // L10N RESOURCES
-  const CONFIG_ID = "LWChris-Twitch_Fullscreen_Brighness-GM_config";
+  const CONFIG_ID = "LWChris-Twitch_Fullscreen_Brightness-GM_config";
   const LANGUAGE_FIELD_ID = "language";
   const LANGUAGE_DEFAULT = "en";
 
@@ -158,12 +160,12 @@ This script uses the following third-party resources:
   const SVG_NS = "http://www.w3.org/2000/svg";
 
   // STATE VARIABLES
-  var resources, brightness, opacity, showTimer, fadeTimer, video, overlay, icon, text, settingFrame;
+  var resources, brightness, opacity, showTimer, fadeTimer, video, overlay, icon, text, settingsFrame;
 
   // CONFIG VARIABLES
   var currentLanguage, defaultBrightness, minBrightness, maxBrightness, brightnessStep, useOverlay, overlayShowDuration, overlayFadeDuration;
 
-  _init = function() {
+  const _init = function() {
     initConfig();
     applyConfig();
     brightness = defaultBrightness;
@@ -171,8 +173,8 @@ This script uses the following third-party resources:
     createOverlay();
   };
 
-  initConfig = function() {
-    let resetDiv = document.createElement("div");
+  const initConfig = function() {
+    const resetDiv = document.createElement("div");
     resetDiv.style = "all: initial";
     settingsFrame = document.createElement("div");
     resetDiv.appendChild(settingsFrame);
@@ -181,7 +183,7 @@ This script uses the following third-party resources:
     GM.registerMenuCommand(resources.ui.open, openConfig);
   };
 
-  reloadConfig = function() {
+  const reloadConfig = function() {
     currentLanguage = GM_config.getValue(LANGUAGE_FIELD_ID, LANGUAGE_DEFAULT);
     resources = LANGUAGE_RESOURCES[currentLanguage];
     GM_config.init({
@@ -195,7 +197,7 @@ This script uses the following third-party resources:
       },
       "frame": settingsFrame,
       "css": "\
-#LWChris-Twitch_Fullscreen_Brighness-GM_config {\
+#LWChris-Twitch_Fullscreen_Brightness-GM_config {\
   background-color: var(--color-background-base);\
   border: 1px solid var(--color-border-base) !important;\
   color: var(--color-text-base);\
@@ -211,10 +213,10 @@ This script uses the following third-party resources:
   --color-accent-primary-4: #a96ffe;\
   --color-accent-primary-5: #af7afe;\
 }\
-#LWChris-Twitch_Fullscreen_Brighness-GM_config * {\
+#LWChris-Twitch_Fullscreen_Brightness-GM_config * {\
   font-family: var(--font-base) !important;\
 }\
-.tw-root--theme-light #LWChris-Twitch_Fullscreen_Brighness-GM_config {\
+.tw-root--theme-light #LWChris-Twitch_Fullscreen_Brightness-GM_config {\
   --color-text-button: var(--color-accent-label);\
   --color-text-button-primary: var(--color-accent-label);\
   --color-text-link: var(--color-accent-primary-2);\
@@ -232,7 +234,7 @@ This script uses the following third-party resources:
   --color-text-button-text-focus: var(--color-accent-primary-1);\
   --color-text-button-text-hover: var(--color-accent-primary-1);\
 }\
-.tw-root--theme-dark #LWChris-Twitch_Fullscreen_Brighness-GM_config {\
+.tw-root--theme-dark #LWChris-Twitch_Fullscreen_Brightness-GM_config {\
   --color-text-button: var(--color-accent-label);\
   --color-text-button-primary: var(--color-accent-label);\
   --color-text-link: var(--color-accent-primary-5);\
@@ -250,7 +252,7 @@ This script uses the following third-party resources:
   --color-text-button-text-focus: var(--color-accent-primary-4);\
   --color-text-button-text-hover: var(--color-accent-primary-4);\
 }\
-#LWChris-Twitch_Fullscreen_Brighness-GM_config .config_var select {\
+#LWChris-Twitch_Fullscreen_Brightness-GM_config .config_var select {\
   appearance: none;\
   background-clip: padding-box;\
   transition: box-shadow var(--timing-short) ease-in,border var(--timing-short) ease-in,background-color var(--timing-short) ease-in;\
@@ -270,42 +272,42 @@ This script uses the following third-party resources:
   cursor: pointer;\
   line-height: normal;\
 }\
-#LWChris-Twitch_Fullscreen_Brighness-GM_config .config_var select:hover {\
+#LWChris-Twitch_Fullscreen_Brightness-GM_config .config_var select:hover {\
   outline: currentcolor none medium;\
   border-color: var(--color-border-input-hover);\
   background-color: var(--color-background-input);\
 }\
-#LWChris-Twitch_Fullscreen_Brighness-GM_config .config_var select:focus {\
+#LWChris-Twitch_Fullscreen_Brightness-GM_config .config_var select:focus {\
   border-color: var(--color-border-input-focus);\
   background-color: var(--color-background-input-focus);\
 }\
-#LWChris-Twitch_Fullscreen_Brighness-GM_config .config_var select:focus option {\
+#LWChris-Twitch_Fullscreen_Brightness-GM_config .config_var select:focus option {\
   border-color: var(--color-border-input-focus);\
   background-color: var(--color-background-input-focus);\
 }\
-#LWChris-Twitch_Fullscreen_Brighness-GM_config_wrapper {\
+#LWChris-Twitch_Fullscreen_Brightness-GM_config_wrapper {\
   padding: 20px;\
 }\
-#LWChris-Twitch_Fullscreen_Brighness-GM_config_header {\
+#LWChris-Twitch_Fullscreen_Brightness-GM_config_header {\
   font-family: var(--font-display);\
   font-weight: 600 !important;\
   line-height: 1.2 !important;\
   font-size: var(--font-size-4) !important;\
   padding: 0 30px 10px !important;\
 }\
-#LWChris-Twitch_Fullscreen_Brighness-GM_config .config_var {\
+#LWChris-Twitch_Fullscreen_Brightness-GM_config .config_var {\
   margin: 10px 0 0 !important;\
 }\
-#LWChris-Twitch_Fullscreen_Brighness-GM_config .config_var label {\
+#LWChris-Twitch_Fullscreen_Brightness-GM_config .config_var label {\
   font-weight: normal;\
   line-height: 2.5rem;\
   margin: 0;\
 }\
-#LWChris-Twitch_Fullscreen_Brighness-GM_config .config_var select {\
+#LWChris-Twitch_Fullscreen_Brightness-GM_config .config_var select {\
   float: right;\
   width: 14ch;\
 }\
-#LWChris-Twitch_Fullscreen_Brighness-GM_config .saveclose_buttons {\
+#LWChris-Twitch_Fullscreen_Brightness-GM_config .saveclose_buttons {\
   border-radius: var(--border-radius-medium);\
   font-size: var(--button-text-default);\
   height: var(--button-size-default);\
@@ -313,54 +315,54 @@ This script uses the following third-party resources:
   min-width: 85px;\
   text-align: center;\
 }\
-#LWChris-Twitch_Fullscreen_Brighness-GM_config_saveBtn {\
+#LWChris-Twitch_Fullscreen_Brightness-GM_config_saveBtn {\
   background-color: var(--color-background-button-primary-default);\
   color: var(--color-text-button-primary);\
 }\
-#LWChris-Twitch_Fullscreen_Brighness-GM_config_saveBtn:hover {\
+#LWChris-Twitch_Fullscreen_Brightness-GM_config_saveBtn:hover {\
 	background-color: var(--color-background-button-primary-hover);\
 }\
-#LWChris-Twitch_Fullscreen_Brighness-GM_config_saveBtn:active {\
+#LWChris-Twitch_Fullscreen_Brightness-GM_config_saveBtn:active {\
 	background-color: var(--color-background-button-primary-active);\
 }\
-#LWChris-Twitch_Fullscreen_Brighness-GM_config_closeBtn {\
+#LWChris-Twitch_Fullscreen_Brightness-GM_config_closeBtn {\
 	background-color: var(--color-background-button-secondary-default);\
 	color: var(--color-text-button-secondary);\
 }\
-#LWChris-Twitch_Fullscreen_Brighness-GM_config_closeBtn:hover {\
+#LWChris-Twitch_Fullscreen_Brightness-GM_config_closeBtn:hover {\
 	background-color: var(--color-background-button-secondary-hover);\
 }\
-#LWChris-Twitch_Fullscreen_Brighness-GM_config_closeBtn:active {\
+#LWChris-Twitch_Fullscreen_Brightness-GM_config_closeBtn:active {\
 	background-color: var(--color-background-button-secondary-active);\
 }\
-#LWChris-Twitch_Fullscreen_Brighness-GM_config .reset_holder {\
+#LWChris-Twitch_Fullscreen_Brightness-GM_config .reset_holder {\
 	margin: -5px 10px 10px;\
 }\
-#LWChris-Twitch_Fullscreen_Brighness-GM_config_resetLink {\
+#LWChris-Twitch_Fullscreen_Brightness-GM_config_resetLink {\
 	color: var(--color-text-alt-2) !important;\
 	text-decoration: none;\
 }\
-#LWChris-Twitch_Fullscreen_Brighness-GM_config_resetLink:hover {\
+#LWChris-Twitch_Fullscreen_Brightness-GM_config_resetLink:hover {\
 	color: var(--color-text-link-hover) !important;\
 }\
-#LWChris-Twitch_Fullscreen_Brighness-GM_config_buttons_holder {\
+#LWChris-Twitch_Fullscreen_Brightness-GM_config_buttons_holder {\
   margin: 30px -10px -20px;\
   border-top: 1px solid var(--color-border-base);\
 }\
-#LWChris-Twitch_Fullscreen_Brighness-GM_config_language_var.config_var,\
-#LWChris-Twitch_Fullscreen_Brighness-GM_config_defaultBrightness_var.config_var,\
-#LWChris-Twitch_Fullscreen_Brighness-GM_config_overlayDuration_var.config_var {\
+#LWChris-Twitch_Fullscreen_Brightness-GM_config_language_var.config_var,\
+#LWChris-Twitch_Fullscreen_Brightness-GM_config_defaultBrightness_var.config_var,\
+#LWChris-Twitch_Fullscreen_Brightness-GM_config_overlayDuration_var.config_var {\
 	margin-top: 20px !important;\
 }\
 "
     });
   };
 
-  openConfig = function() {
+  const openConfig = function() {
     GM_config.open();
   };
 
-  applyConfig = function() {
+  const applyConfig = function() {
     defaultBrightness = toIntValue(GM_config.get(DEFAULT_BRIGHTNESS_FIELD_ID));
     minBrightness = toIntValue(GM_config.get(MIN_BRIGHTNESS_FIELD_ID));
     maxBrightness = toIntValue(GM_config.get(MAX_BRIGHTNESS_FIELD_ID));
@@ -415,21 +417,21 @@ This script uses the following third-party resources:
     }
   };
 
-  onConfigInit = function() {
+  const onConfigInit = function() {
     GM_config.fields[LANGUAGE_FIELD_ID].value = currentLanguage;
   };
 
-  onConfigOpen = function(doc) {
-    let config = this;
+  const onConfigOpen = function(doc) {
+    const config = this;
     doc.getElementById(config.id + "_saveBtn").textContent = resources.ui.save;
     doc.getElementById(config.id + "_closeBtn").textContent = resources.ui.close;
     doc.getElementById(config.id + "_resetLink").textContent = resources.ui.reset;
   };
 
-  onConfigSave = function(values) {
-    for (var id in values) {
+  const onConfigSave = function(values) {
+    for (const id in values) {
       if (id == LANGUAGE_FIELD_ID && values[id] != currentLanguage) {
-        let oldLanguage = currentLanguage;
+        const oldLanguage = currentLanguage;
         currentLanguage = values[id];
 
         translateOptions(oldLanguage, currentLanguage, values);
@@ -444,36 +446,33 @@ This script uses the following third-party resources:
     applyConfig();
   };
 
-  translateOptions = function(fromLanguage, toLanguage, values) {
-    console.log("translateOptions");
-    let fromResources = LANGUAGE_RESOURCES[fromLanguage];
-    let toResources = LANGUAGE_RESOURCES[fromLanguage];
+  const translateOptions = function(fromLanguage, toLanguage, values) {
+    const fromResources = LANGUAGE_RESOURCES[fromLanguage];
+    const toResources = LANGUAGE_RESOURCES[fromLanguage];
 
-    for (let fieldIndex in TRANSLATABLE_FIELD_IDS) {
-      let fieldId = TRANSLATABLE_FIELD_IDS[fieldIndex];
-      let fromValue = values[fieldId];
-      let toValue = translateOption(fromResources, toResources, fieldId, fromValue);
+    for (const fieldId of TRANSLATABLE_FIELD_IDS) {
+      const fromValue = values[fieldId];
+      const toValue = translateOption(fromResources, toResources, fieldId, fromValue);
       values[fieldId] = toValue;
       GM_config.setValue(fieldId, toValue);
     }
   };
 
-  translateOption = function(fromResources, toResources, fieldId, fromValue) {
-    console.log("translateOption");
-    let fromOptions = fromResources.fields[fieldId].options;
-    let toOptions = toResources.fields[fieldId].options;
-    for (let option in fromOptions) {
+  const translateOption = function(fromResources, toResources, fieldId, fromValue) {
+    const fromOptions = fromResources.fields[fieldId].options;
+    const toOptions = toResources.fields[fieldId].options;
+    for (const option in fromOptions) {
       if (fromOptions[option] == fromValue) {
         return toOptions[option];
       }
     }
   };
 
-  toIntValue = function(percentage) {
+  const toIntValue = function(percentage) {
     return parseInt(percentage.substring(0, percentage.length));
   };
 
-  fullScreenChanged = function() {
+  const fullScreenChanged = function() {
     if (document.fullscreen) {
       scrollWheelTracking(true);
     } else {
@@ -481,7 +480,8 @@ This script uses the following third-party resources:
     }
   };
 
-  scrollWheelTracking = function(enable) {
+  const scrollWheelTracking = function(enable) {
+    console.log("scrollWheelTracking", enable);
     video = document.querySelector("video");
     if (video) {
       if (enable) {
@@ -496,7 +496,8 @@ This script uses the following third-party resources:
     }
   };
 
-  scrolled = function(evt) {
+  var scrolled = function(evt) {
+    console.log("scrolled");
     if (evt.deltaY > 0 && brightness > minBrightness) {
       brightness -= brightnessStep;
       if (brightness < minBrightness) {
@@ -511,7 +512,7 @@ This script uses the following third-party resources:
     adjustBrightness(brightness, true);
   };
 
-  adjustBrightness = function(b, showIfFull) {
+  var adjustBrightness = function(b, showIfFull) {
     if (video) {
       video.style.opacity = b / 100.0;
       icon.style.opacity = b / 100.0;
@@ -522,7 +523,7 @@ This script uses the following third-party resources:
     }
   };
 
-  createOverlay = function() {
+  var createOverlay = function() {
     overlay = document.createElement("div");
     overlay.style = "\
 background-color: rgba(0, 0, 0, 0.7);\
@@ -540,13 +541,13 @@ line-height: 0;\
 margin: 15px;\
 width: 40px;\
 ";
-    let svg = document.createElementNS(SVG_NS, "svg");
+    const svg = document.createElementNS(SVG_NS, "svg");
     // Attribution optional, but credit where credit is due:
     // https://iconmonstr.com/brightness-3-svg/
     svg.setAttributeNS(null, "width", 40);
     svg.setAttributeNS(null, "height", 40);
     svg.setAttributeNS(null, "viewBox", "0 0 24 24");
-    let path = document.createElementNS(SVG_NS, "path");
+    const path = document.createElementNS(SVG_NS, "path");
     path.setAttributeNS(null, "d", "\
 M17 12c0 2.762-2.238 5-5 5s-5-2.238-5-5 2.238-5 5-5 5 \
 2.238 5 5zm-5-7c.34 0 .672.033 1 .08v-2.08h-2v2.08c.32\
@@ -576,19 +577,19 @@ width: 80px;\
     overlay.appendChild(text);
   };
 
-  addOverlay = function() {
+  var addOverlay = function() {
     if (video) {
       video.parentNode.appendChild(overlay);
     }
   };
 
-  removeOverlay = function() {
+  var removeOverlay = function() {
     if (overlay) {
       overlay.remove();
     }
   };
 
-  showOverlay = function() {
+  var showOverlay = function() {
     if (!useOverlay) return;
     window.clearTimeout(showTimer);
     window.clearInterval(fadeTimer);
@@ -597,12 +598,12 @@ width: 80px;\
     showTimer = window.setTimeout(startFadeOverlay, overlayShowDuration);
   };
 
-  startFadeOverlay = function() {
+  var startFadeOverlay = function() {
     window.clearTimeout(showTimer);
     fadeTimer = window.setInterval(fadeOverlay, OVERLAY_FADE_STEP);
   };
 
-  fadeOverlay = function() {
+  var fadeOverlay = function() {
     if (opacity > OVERLAY_FADE_STEP) {
       opacity -= OVERLAY_FADE_STEP;
       overlay.style.opacity = (opacity * 1.0) / overlayFadeDuration;
