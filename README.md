@@ -20,3 +20,6 @@ _Twitch Fullscreen Brightness_ is neither developed, maintained nor affiliated w
 
 ## Installation
 To install this user script, click **[here](https://github.com/LWChris/twitch_fullscreen_brightness/raw/master/twitch_fullscreen_brightness.user.js)**.
+
+## Known Issues
+1. [Mouse wheel scroll detection doesn't work for live streams](https://github.com/LWChris/twitch_fullscreen_brightness/issues/1)
