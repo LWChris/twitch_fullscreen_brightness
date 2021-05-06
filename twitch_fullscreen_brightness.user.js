@@ -21,7 +21,7 @@ This script uses the following third-party resources:
 // @namespace       LWChris
 // @author          LWChris
 // @match           https://www.twitch.tv/*
-// @version         1.1
+// @version         1.2
 // @require         https://openuserjs.org/src/libs/sizzle/GM_config.min.js
 // @grant           GM.registerMenuCommand
 // ==/UserScript==
@@ -496,7 +496,7 @@ This script uses the following third-party resources:
     }
   };
 
-  var scrolled = function(evt) {
+  const scrolled = function(evt) {
     console.log("scrolled");
     if (evt.deltaY > 0 && brightness > minBrightness) {
       brightness -= brightnessStep;
@@ -512,7 +512,7 @@ This script uses the following third-party resources:
     adjustBrightness(brightness, true);
   };
 
-  var adjustBrightness = function(b, showIfFull) {
+  const adjustBrightness = function(b, showIfFull) {
     if (video) {
       video.style.opacity = b / 100.0;
       icon.style.opacity = b / 100.0;
@@ -523,7 +523,7 @@ This script uses the following third-party resources:
     }
   };
 
-  var createOverlay = function() {
+  const createOverlay = function() {
     overlay = document.createElement("div");
     overlay.style = "\
 background-color: rgba(0, 0, 0, 0.7);\
@@ -577,19 +577,19 @@ width: 80px;\
     overlay.appendChild(text);
   };
 
-  var addOverlay = function() {
+  const addOverlay = function() {
     if (video) {
       video.parentNode.appendChild(overlay);
     }
   };
 
-  var removeOverlay = function() {
+  const removeOverlay = function() {
     if (overlay) {
       overlay.remove();
     }
   };
 
-  var showOverlay = function() {
+  const showOverlay = function() {
     if (!useOverlay) return;
     window.clearTimeout(showTimer);
     window.clearInterval(fadeTimer);
@@ -598,12 +598,12 @@ width: 80px;\
     showTimer = window.setTimeout(startFadeOverlay, overlayShowDuration);
   };
 
-  var startFadeOverlay = function() {
+  const startFadeOverlay = function() {
     window.clearTimeout(showTimer);
     fadeTimer = window.setInterval(fadeOverlay, OVERLAY_FADE_STEP);
   };
 
-  var fadeOverlay = function() {
+  const fadeOverlay = function() {
     if (opacity > OVERLAY_FADE_STEP) {
       opacity -= OVERLAY_FADE_STEP;
       overlay.style.opacity = (opacity * 1.0) / overlayFadeDuration;
