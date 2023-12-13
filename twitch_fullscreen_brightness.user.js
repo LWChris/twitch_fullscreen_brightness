@@ -21,7 +21,7 @@ This script uses the following third-party resources:
 // @namespace       LWChris
 // @author          LWChris
 // @match           https://www.twitch.tv/*
-// @version         1.3
+// @version         1.4
 // @require         https://openuserjs.org/src/libs/sizzle/GM_config.min.js
 // @grant           GM.registerMenuCommand
 // ==/UserScript==
@@ -204,53 +204,15 @@ This script uses the following third-party resources:
   height: unset !important;\
   min-width: 360px;\
   width: unset !important;\
-  --color-accent: #9147ff;\
-  --color-accent-label: var(--color-white);\
-  --color-accent-hover: #a66bff;\
-  --color-accent-primary-1: #220055;\
-  --color-accent-primary-2: #39018d;\
-  --color-accent-primary-3: #924afe;\
-  --color-accent-primary-4: #a96ffe;\
-  --color-accent-primary-5: #af7afe;\
 }\
 #LWChris-Twitch_Fullscreen_Brightness-GM_config * {\
   font-family: var(--font-base) !important;\
 }\
-.tw-root--theme-light #LWChris-Twitch_Fullscreen_Brightness-GM_config {\
-  --color-text-button: var(--color-accent-label);\
-  --color-text-button-primary: var(--color-accent-label);\
-  --color-text-link: var(--color-accent-primary-2);\
-  --color-text-link-active: var(--color-accent-primary-1);\
-  --color-text-link-focus: var(--color-accent-primary-1);\
-  --color-text-link-hover: var(--color-accent-primary-1);\
-  --color-text-link-visited: var(--color-accent-primary-2);\
-  --color-background-interactable-hover: var(--color-accent-primary-3);\
-  --color-background-interactable-active: var(--color-accent-primary-2);\
-  --color-background-button-primary-default: var(--color-accent);\
-  --color-background-button-primary-hover: var(--color-accent-hover);\
-  --color-background-button-primary-active: var(--color-accent);\
-  --color-text-button-text: var(--color-accent-primary-2);\
-  --color-text-button-text-active: var(--color-accent-primary-1);\
-  --color-text-button-text-focus: var(--color-accent-primary-1);\
-  --color-text-button-text-hover: var(--color-accent-primary-1);\
+.tw-root--theme-dark #LWChris-Twitch_Fullscreen_Brightness-GM_config .config_var select {\
+  background-image: url(\"data:image/svg+xml,%3Csvg%20viewBox%3D%220%200%2020%2020%22%20version%3D%221.1%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%20%20%3Cpath%20fill%3D%22%23efeff1%22%20d%3D%22M10.5%2013.683l2.85-2.442%201.3%201.518-3.337%202.86a1.25%201.25%200%200%201-1.626%200l-3.338-2.86%201.302-1.518%202.849%202.442zm0-7.366L7.65%208.76l-1.3-1.518%203.337-2.86a1.25%201.25%200%200%201%201.627%200l3.337%202.86-1.302%201.518L10.5%206.317z%22%20%2F%3E%0A%3C%2Fsvg%3E\");\
 }\
-.tw-root--theme-dark #LWChris-Twitch_Fullscreen_Brightness-GM_config {\
-  --color-text-button: var(--color-accent-label);\
-  --color-text-button-primary: var(--color-accent-label);\
-  --color-text-link: var(--color-accent-primary-5);\
-  --color-text-link-active: var(--color-accent-primary-4);\
-  --color-text-link-focus: var(--color-accent-primary-4);\
-  --color-text-link-hover: var(--color-accent-primary-4);\
-  --color-text-link-visited: var(--color-accent-primary-5);\
-  --color-background-interactable-hover: var(--color-accent-primary-3);\
-  --color-background-interactable-active: var(--color-accent-primary-2);\
-  --color-background-button-primary-default: var(--color-accent);\
-  --color-background-button-primary-hover: var(--color-accent-hover);\
-  --color-background-button-primary-active: var(--color-accent);\
-  --color-text-button-text: var(--color-accent-primary-5);\
-  --color-text-button-text-active: var(--color-accent-primary-4);\
-  --color-text-button-text-focus: var(--color-accent-primary-4);\
-  --color-text-button-text-hover: var(--color-accent-primary-4);\
+.tw-root--theme-light #LWChris-Twitch_Fullscreen_Brightness-GM_config .config_var select {\
+  background-image: url(\"data:image/svg+xml,%3Csvg%20viewBox%3D%220%200%2020%2020%22%20version%3D%221.1%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%20%20%3Cpath%20fill%3D%22%230e0e10%22%20d%3D%22M10.5%2013.683l2.85-2.442%201.3%201.518-3.337%202.86a1.25%201.25%200%200%201-1.626%200l-3.338-2.86%201.302-1.518%202.849%202.442zm0-7.366L7.65%208.76l-1.3-1.518%203.337-2.86a1.25%201.25%200%200%201%201.627%200l3.337%202.86-1.302%201.518L10.5%206.317z%22%20%2F%3E%0A%3C%2Fsvg%3E\")\
 }\
 #LWChris-Twitch_Fullscreen_Brightness-GM_config .config_var select {\
   appearance: none;\
@@ -261,7 +223,6 @@ This script uses the following third-party resources:
   border-color: var(--color-border-input);\
   color: var(--color-text-input);\
   background-color: var(--color-background-input);\
-  background-image: url(\"data:image/svg+xml,%3Csvg%20viewBox%3D%220%200%2020%2020%22%20version%3D%221.1%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%20%20%3Cpath%20fill%3D%22%22%20d%3D%22M10.5%2013.683l2.85-2.442%201.3%201.518-3.337%202.86a1.25%201.25%200%200%201-1.626%200l-3.338-2.86%201.302-1.518%202.849%202.442zm0-7.366L7.65%208.76l-1.3-1.518%203.337-2.86a1.25%201.25%200%200%201%201.627%200l3.337%202.86-1.302%201.518L10.5%206.317z%22%20%2F%3E%0A%3C%2Fsvg%3E\");\
   background-repeat: no-repeat;\
   background-position: right 0.8rem center;\
   background-size: 2rem;\
@@ -299,6 +260,7 @@ This script uses the following third-party resources:
   margin: 10px 0 0 !important;\
 }\
 #LWChris-Twitch_Fullscreen_Brightness-GM_config .config_var label {\
+  font-size: var(--font-size-6);\
   font-weight: normal;\
   line-height: 2.5rem;\
   margin: 0;\
