@@ -21,7 +21,7 @@ This script uses the following third-party resources:
 // @namespace       LWChris
 // @author          LWChris
 // @match           https://www.twitch.tv/*
-// @version         1.2
+// @version         1.3
 // @require         https://openuserjs.org/src/libs/sizzle/GM_config.min.js
 // @grant           GM.registerMenuCommand
 // ==/UserScript==
@@ -481,7 +481,6 @@ This script uses the following third-party resources:
   };
 
   const scrollWheelTracking = function(enable) {
-    console.log("scrollWheelTracking", enable);
     video = document.querySelector("video");
     if (video) {
       if (enable) {
@@ -497,7 +496,27 @@ This script uses the following third-party resources:
   };
 
   const scrolled = function(evt) {
-    console.log("scrolled");
+    let target = evt.target;
+    while (target) {
+      const tagName = target.tagName.toLowerCase();
+      if (tagName === "main") {
+        // Video area
+        break;
+      } else if (tagName === "aside") {
+        // Chat flyout
+        return;
+      } else if (tagName === "html") {
+        // Somewhere else
+        return;
+      } else {
+        target = target.parentNode;
+      }
+    }
+    if (!target) {
+      // Somehow parentNode returned null or undefined
+      // Should never happen, but rather dismiss scroll event
+      return;
+    }
     if (evt.deltaY > 0 && brightness > minBrightness) {
       brightness -= brightnessStep;
       if (brightness < minBrightness) {
